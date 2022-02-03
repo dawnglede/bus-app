@@ -8,6 +8,7 @@ import { MEDIA_MD, MEDIA_LG} from '../../constants/breakpoint';
 export const SearchBusContainer = styled.div`
   max-width: 411px;
   margin: 0 auto;
+  margin-bottom: 30px;
    
   img {
     width: 100%;

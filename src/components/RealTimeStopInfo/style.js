@@ -11,19 +11,7 @@ export const BusInfoContaienr = styled.div`
     }
 `;
 
-
-export const TopBarContainer = styled.div`
-    width: 411px;
-    
-    ${MEDIA_MD} {
-        width: 768px;
-    }
-
-    ${MEDIA_LG} {
-        width: 1200px;
-    }
-`;
-
+// 1024 有breakpoint
 export const TopBar = styled.div`
     width: 100%;
     border-radius: 0px 0px 16px 16px;
@@ -35,7 +23,7 @@ export const TopBar = styled.div`
     left: 0;
     
     ${MEDIA_MD} {
-        padding-left: 7%;
+        padding-left:7%;
         height: 114px;
     }
 
@@ -70,142 +58,12 @@ export const RouteName = styled.h2`
 
 `;
 
-export const Destination = styled.div`
-    margin-top: 144px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: relative;
-
-    .lower-right {
-        border: 2px solid #BDBDBD;
-        border-radius: 2px;
-        background: #BDBDBD;
-        width: 15px;
-        height: 0px;
-        transform: rotate(-45deg);
-        position: absolute;
-        left: 206px;  
-        top: 230px;
-    }
-
-    .upper-right {
-        border: 2px solid #BDBDBD;
-        border-radius: 2px;
-        background: #BDBDBD;
-        width: 15px;
-        height: 0px;
-        transform: rotate(45deg);
-        position: absolute;
-        left: 206px;  
-        top: 218px;
-    }
-    
-    .unclick {
-        background-color: #E0E0E0;
-        color: #5B4E6E;
-    }
-
-    .clicked {
-       background-color: #6B00FF;
-       color: #FFFFFF;
-    }
-    
-`;
-
-export const Departure = styled.button`
-    border: none;
-    width: 158.5px;
-    height: 40px;
-    border-radius: 16px;
-    text-align: center;
-    font-size: 16px;
-    
-    line-height: 40px;
-    font-weight: bold;
-    margin: 0 16px;
-    cursor: pointer;
-
-    
-
-    ${MEDIA_MD} {
-        width: 323px;
-        height: 46px;
-        line-height: 46px;
-        font-size: 20px;
-        margin: 0 16px 0 30px;
-    }
-`;
-
-export const Terminal = styled(Departure)`
-
-    ${MEDIA_MD} { 
-        margin: 0 30px 0 16px;
-    }
-`;
-
-export const Arrow = styled.div`
-    border: 1.5px solid #BDBDBD;
-    background: #BDBDBD;
-    width: 30px;
-    height: 0px;
-    position: relative;
-
-    .lower-right {
-        border: 1.5px solid #BDBDBD;
-        border-radius: 2px;
-        background: #BDBDBD;
-        width: 13px;
-        height: 0px;
-        transform: rotate(-45deg);
-        position: absolute;
-        left: 19px;  
-        top: 3px;
-    }
-
-    .upper-right {
-        border: 1.5px solid #BDBDBD;
-        border-radius: 2px;
-        background: #BDBDBD;
-        width: 13px;
-        height: 0px;
-        transform: rotate(45deg);
-        position: absolute;
-        left: 19px;  
-        top: -5px;
-    }
-
-    .lower-left {
-        border: 1.5px solid #BDBDBD;
-        border-radius: 2px;
-        background: #BDBDBD;
-        width: 13px;
-        height: 0px;
-        transform: rotate(228deg);
-        position: absolute;
-        left: -6px;  
-        top: 3px;
-    }
-
-    .upper-left {
-        border: 1.5px solid #BDBDBD;
-        border-radius: 2px;
-        background: #BDBDBD;
-        width: 13px;
-        height: 0px;
-        transform: rotate(135deg);
-        position: absolute;
-        left: -6px;  
-        top: -5px;
-    }
-    
-`;
-
 export const Stops = styled.div`
     margin-top: 30px;
     display:flex;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 126px;
 `;
 
 export const StopCard = styled.div`
@@ -216,6 +74,8 @@ export const StopCard = styled.div`
     padding: 20px 8px;
     position: relative;
     margin-bottom: 12px;
+    display: flex;
+    align-items: center;
 
     ${MEDIA_MD} {
         width: 678px;
@@ -247,13 +107,22 @@ export const StopName = styled.div`
     color: #5B4E6E;
     font-size: 16px;
     font-weight: 700;
-    display: inline-block;
-    vertical-align: middle;
     margin-left: 8px;
 
     ${MEDIA_MD} {
         font-size: 20px;
     }
+`;
+
+export const DestinationName = styled.span`
+        margin-left: 8px;
+        font-size: 14px;
+        color: #5B4E6E;
+
+        ${MEDIA_MD} {
+            font-size: 16px;
+
+        }
 `;
 
 export const StopOrder = styled.div`

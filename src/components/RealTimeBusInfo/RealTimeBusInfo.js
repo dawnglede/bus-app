@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BusInfoContaienr, TopBar, City, RouteName, Destination, Stops, Departure, Terminal, Arrow, StopCard, ArrivalTime, StopName, StopOrder, Plate, BusIcon} from './style'
-import { ThemeProvider } from 'styled-components';
+import { BusInfoContaienr, TopBar, City, RouteName, Destination, Stops, Departure, Terminal, Arrow, StopCard, ArrivalTime, StopName, StopOrder, Plate, BusIcon, TopBarContainer} from './style';
 import busIcon from '../../assets/bus-icon.png';
 import { useParams} from "react-router";
 
@@ -140,8 +139,10 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     return ( 
         <BusInfoContaienr>
             <TopBar>
-               <City>{twCityName}</City>
-               <RouteName>{routeTitle}</RouteName>
+                <TopBarContainer>
+                    <City>{twCityName}</City>
+                    <RouteName>{routeTitle}</RouteName>
+                </TopBarContainer>
             </TopBar>
             <Destination>
                <Departure onClick={changeColor} className={ isDeparture ? 'clicked' : 'unclick' } >{roundName.depart}</Departure>
