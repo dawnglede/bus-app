@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { BusInfoContaienr, TopBar, City, RouteName, Destination, Stops, Departure, Terminal, Arrow, StopCard, ArrivalTime, StopName, StopOrder, Plate, BusIcon, DestinationName} from './style'
-import { ThemeProvider } from 'styled-components';
+import { BusInfoContaienr, TopBar, City, RouteName, Stops, StopCard, ArrivalTime, StopName, StopOrder, Plate, BusIcon, DestinationName} from './style'
 import busIcon from '../../assets/bus-icon.png';
-import { useParams} from "react-router";
+import { useParams } from "react-router";
 import getRouteUID from '../../constants/utils';
+import getAuthorizationHeader from '../../BusApi/busApi';
 
 export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) => {
     let { routeTitle } = useParams();
@@ -15,7 +15,7 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
     
     const getBusEstimateTime = async() => {
             const estimatedTimeOfArrival = `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${cityName}?%24filter=contains(StopUID%2C'${stopUID}')&%24top=30&%24format=JSON`;
-            const res = await fetch(estimatedTimeOfArrival);
+            const res = await fetch(estimatedTimeOfArrival, { headers: getAuthorizationHeader() });
             const jsonRes = await res.json();
                 setEstimateBusTime([]);
 
@@ -32,17 +32,12 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
     }
 
     //get 公車routeUID
-    const [ departStopName, setDepartStopName ]= useState([]);
-    const [ returnStopName, setReturnStopName ] = useState([]);
     const stopOfRoute = `https://ptx.transportdata.tw/MOTC/v2/Bus/StopOfRoute/City/${cityName}?%24select=RouteUID%2CRouteName%2CStops&%24format=JSON`;
  
-
     const getBusRouteUID = async () => {
-        const res = await fetch(stopOfRoute);
+        const res = await fetch(stopOfRoute, { headers: getAuthorizationHeader() });
         const jsonRes = await res.json();
         //console.log('stopdata', jsonRes);
-        let departure = [];
-        let returnRoute = [];
         
         getRouteUID(jsonRes, stopUID, routeId);
         console.log(routeId)

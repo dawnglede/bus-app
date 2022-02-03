@@ -6,6 +6,7 @@ import { BusCard } from '../BusCard/BusCard';
 import { StopBusCard } from '../StopBusCard/StopBusCard';
 import { location } from '../../constants/utils';
 import styled from 'styled-components';
+import getAuthorizationHeader from '../../BusApi/busApi';
 
 export const FindBus = ({ 
     setTwCityName, 
@@ -57,7 +58,7 @@ export const FindBus = ({
     const stopUrl = `https://ptx.transportdata.tw/MOTC/v2/Bus/Stop/City/${cityName}?%24filter=contains(StopName%2FZh_tw%2C%20'${stopName}')&%24top=24&%24format=JSON`;
     
     const fetchBusRoute = () => {
-        return fetch(routeUrl).then(res => {
+        return fetch(routeUrl, { headers: getAuthorizationHeader() }).then(res => {
             if (res.ok) {
                 setIsConnect(true);
                 return res.json();
@@ -73,34 +74,11 @@ export const FindBus = ({
     };
   
     const fetchBusStop = () => {
-        return fetch(stopUrl).then(res => res.json())
+        return fetch(stopUrl, { headers: getAuthorizationHeader() }).then(res => res.json())
         .then(jsonRes => {
             console.log(jsonRes)
             setBusStopData(jsonRes)
         });
-    };
-
-    const isDataLoad = () => {
-        if (busRouteData.length === 0 && isConnect === true) {
-            return;
-        } else if (busRouteData.length === 0 && isConnect === false) {
-            return <ErrorMessage />;
-        } else {
-        return (searchMethod === 'searchRoute' ? 
-            <BusCard 
-            busRouteData={busRouteData} 
-            twCityName={twCityName} 
-            setRouteUID={setRouteUID} 
-            routeUID={routeUID} 
-            setRoundName={setRoundName}
-            /> : 
-            <StopBusCard 
-            busStopData={busStopData} 
-            twCityName={twCityName} 
-            setRouteUID={setRouteUID}
-            setStopUID={setStopUID}
-            />)
-        }
     };
   
     useEffect(()=>{
@@ -140,7 +118,7 @@ export const FindBus = ({
                 </SearchForm>
             </SearchBox>
         </SearchBus>
-        {isDataLoad()/*searchMethod === 'searchRoute' ? 
+        {searchMethod === 'searchRoute'? 
         <BusCard 
         busRouteData={busRouteData} 
         twCityName={twCityName} 
@@ -153,7 +131,7 @@ export const FindBus = ({
         twCityName={twCityName} 
         setRouteUID={setRouteUID}
         setStopUID={setStopUID}
-        />*/ 
+        />
         }
         <img src={backgroundLg} alt="background" />
      </SearchBusContainer>

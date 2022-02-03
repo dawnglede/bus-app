@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { MEDIA_MD, MEDIA_LG } from '../../constants/breakpoint';
 import busIcon from '../../assets/bus-icon.png';
 
@@ -19,9 +19,6 @@ export const TopBarContainer = styled.div`
         width: 768px;
     }
 
-    ${MEDIA_LG} {
-        width: 1200px;
-    }
 `;
 
 export const TopBar = styled.div`

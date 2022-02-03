@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BusInfoContaienr, TopBar, City, RouteName, Destination, Stops, Departure, Terminal, Arrow, StopCard, ArrivalTime, StopName, StopOrder, Plate, BusIcon, TopBarContainer} from './style';
 import busIcon from '../../assets/bus-icon.png';
 import { useParams} from "react-router";
+import getAuthorizationHeader from '../../BusApi/busApi';
 
 export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) => {
     let { routeTitle } = useParams();
@@ -23,7 +24,7 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     const estimatedTimeOfArrival = `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${cityName}?%24filter=contains(RouteUID%2C%20'${routeUID}')&%24format=JSON`;
     
     const getBus = async() => {
-        const res = await fetch(estimatedTimeOfArrival);
+        const res = await fetch(estimatedTimeOfArrival, { headers: getAuthorizationHeader() });
         const jsonRes = await res.json();
             setEstimateDepart([]);
             setEstimateReturn([]);
@@ -70,7 +71,7 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     const stopOfRoute = `https://ptx.transportdata.tw/MOTC/v2/Bus/StopOfRoute/City/${cityName}?%24filter=contains(RouteUID%2C%20'${routeUID}')&%24top=30&%24format=JSON`;
 
     const getBusStop = async () => {
-        const res = await fetch(stopOfRoute);
+        const res = await fetch(stopOfRoute, { headers: getAuthorizationHeader() });
         const jsonRes = await res.json();
         //console.log('stopdata', jsonRes);
         let departure = [];

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import radioUnchecked from '../../assets/radio-unchecked.png';
 import radioChecked from '../../assets/radio-checked.png';
 import arrow from '../../assets/arrow.png';
-import smallBg from '../../assets/searchBus-sm.png';
 import { MEDIA_MD, MEDIA_LG} from '../../constants/breakpoint';
 
 export const SearchBusContainer = styled.div`
@@ -168,16 +167,6 @@ export const CityName = styled.div`
     z-index: 4;
 `;
 
-/*export const ListArrow = styled.div`
-  background: url(${arrow}) scroll right center transparent;
-  width: 13px;
-  height: 8px;
-  //position: absolute;
-  //top: 265px;
-  //right: 50.42px;
-  
-`;*/
-
 export const SearchInputContainer = styled.div`
   width: 476px;
   height: 56px;
@@ -188,15 +177,4 @@ export const SearchInputContainer = styled.div`
 export const SelectCityContainer = styled.div`
   position: relative;
 `;
-
-
-
-/*export const SearchBusBg = styled.img.attrs({
-  src: smallBg
-})`
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    z-index: -999;
-`;*/
 

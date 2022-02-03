@@ -1,40 +1,14 @@
+import { AppID, AppKey } from './apiKey';
+import jsSHA from 'jssha';
 
-
-export const getBusRoute = (city, routeName) => {
-    const routeUrl = `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${city}/${routeName}?$format=JSON`;
-    return fetch(routeUrl).then(response => response.json())
-    .then(jsonRes => jsonRes);
+function getAuthorizationHeader() {
+        let GMTString = new Date().toGMTString();
+        let ShaObj = new jsSHA('SHA-1', 'TEXT');
+        ShaObj.setHMACKey(AppKey, 'TEXT');
+        ShaObj.update('x-date: ' + GMTString);
+        let HMAC = ShaObj.getHMAC('B64');
+        let Authorization = 'hmac username=\"' + AppID + '\", algorithm=\"hmac-sha1\", headers=\"x-date\", signature=\"' + HMAC + '\"';
+        return { 'Authorization': Authorization, 'X-Date': GMTString }; 
 }
 
-// 取得站牌名稱
-// 需要用UID篩選需要的路線站牌
-/*const getBusStop = (cityName, routeUID) => {
-    return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/StopOfRoute/City/${cityName}?%24filter=contains(RouteUID%2C%20'${routeUID}')&%24top=30&%24format=JSON`)
-    .then(res => res.json())
-    .then(jsonRes => {
-        if (jsonRes.Direction === 0) {
-            for (let data in jsonRes) {
-                data.Stops.forEach( stop => 
-                    departureStopName.push({
-                        stopSequence: stop.StopSequence,
-                        stopName: stop.StopName.Zh_tw,
-                        stopUID: stop.StopUID
-                    }));
-            }
-        } else {
-            for (let data in jsonRes) {
-                data.Stops.forEach( stop => 
-                    returnStopName.push({
-                        stopSequence: stop.StopSequence,
-                        stopName: stop.StopName.Zh_tw,
-                        stopUID: stop.StopUID
-                    }));
-            }
-        }    
-    })  
-
-};*/
-
-//取得公車到站時間及車牌
-
-
+export default getAuthorizationHeader;
