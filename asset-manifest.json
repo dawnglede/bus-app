@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/dawnglede/bus-app.git/static/css/main.8a15d60f.chunk.css",
+    "main.js": "/dawnglede/bus-app.git/static/js/main.cbae6049.chunk.js",
+    "main.js.map": "/dawnglede/bus-app.git/static/js/main.cbae6049.chunk.js.map",
+    "runtime-main.js": "/dawnglede/bus-app.git/static/js/runtime-main.2d9542d9.js",
+    "runtime-main.js.map": "/dawnglede/bus-app.git/static/js/runtime-main.2d9542d9.js.map",
+    "static/js/2.b9b3f54c.chunk.js": "/dawnglede/bus-app.git/static/js/2.b9b3f54c.chunk.js",
+    "static/js/2.b9b3f54c.chunk.js.map": "/dawnglede/bus-app.git/static/js/2.b9b3f54c.chunk.js.map",
+    "static/js/3.15756591.chunk.js": "/dawnglede/bus-app.git/static/js/3.15756591.chunk.js",
+    "static/js/3.15756591.chunk.js.map": "/dawnglede/bus-app.git/static/js/3.15756591.chunk.js.map",
+    "index.html": "/dawnglede/bus-app.git/index.html",
+    "static/css/main.8a15d60f.chunk.css.map": "/dawnglede/bus-app.git/static/css/main.8a15d60f.chunk.css.map",
+    "static/js/2.b9b3f54c.chunk.js.LICENSE.txt": "/dawnglede/bus-app.git/static/js/2.b9b3f54c.chunk.js.LICENSE.txt",
+    "static/media/Logo.5d5cbc0e.svg": "/dawnglede/bus-app.git/static/media/Logo.5d5cbc0e.svg",
+    "static/media/menu.de72c7e0.svg": "/dawnglede/bus-app.git/static/media/menu.de72c7e0.svg",
+    "static/media/searchBus-lg.664475c0.png": "/dawnglede/bus-app.git/static/media/searchBus-lg.664475c0.png",
+    "static/media/searchBus-sm.e8077374.png": "/dawnglede/bus-app.git/static/media/searchBus-sm.e8077374.png",
+    "static/media/searchicon.e1e77232.svg": "/dawnglede/bus-app.git/static/media/searchicon.e1e77232.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2d9542d9.js",
+    "static/js/2.b9b3f54c.chunk.js",
+    "static/css/main.8a15d60f.chunk.css",
+    "static/js/main.cbae6049.chunk.js"
+  ]
+}
