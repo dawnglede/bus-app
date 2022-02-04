@@ -11,7 +11,14 @@ export const BusInfoContaienr = styled.div`
     }
 `;
 
-// 1024 有breakpoint
+export const TopBarContainer = styled.div`
+    width: 411px;
+    
+    ${MEDIA_MD} {
+        width: 768px;
+    }
+`;
+
 export const TopBar = styled.div`
     width: 100%;
     border-radius: 0px 0px 16px 16px;
@@ -21,6 +28,8 @@ export const TopBar = styled.div`
     position: absolute;
     top: 80px;
     left: 0;
+    display: flex;
+    justify-content: center;
     
     ${MEDIA_MD} {
         padding-left:7%;

@@ -18,7 +18,6 @@ export const TopBarContainer = styled.div`
     ${MEDIA_MD} {
         width: 768px;
     }
-
 `;
 
 export const TopBar = styled.div`
@@ -30,6 +29,8 @@ export const TopBar = styled.div`
     position: absolute;
     top: 80px;
     left: 0;
+    display: flex;
+    justify-content: center;
     
     ${MEDIA_MD} {
         padding-left: 7%;

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { SearchBus, SearchBox, SearchForm, SearchInputContainer, SearchBusContainer, SelectCity, CityName, SelectCityContainer, SearchBusBg } from './style';
-import backgroundSm from '../../assets/searchBus-sm.png';
+import { SearchBus, SearchBox, SearchForm, SearchInputContainer, SearchBusContainer, SelectCity, CityName, SelectCityContainer } from './style';
 import backgroundLg from '../../assets/searchBus-lg.png';
 import { BusCard } from '../BusCard/BusCard';
 import { StopBusCard } from '../StopBusCard/StopBusCard';
 import { location } from '../../constants/utils';
 import styled from 'styled-components';
 import getAuthorizationHeader from '../../BusApi/busApi';
+import arrow from '../../assets/arrow.png';
 
 export const FindBus = ({ 
     setTwCityName, 
@@ -23,7 +23,6 @@ export const FindBus = ({
     const [ searchMethod, setSearchMethod ] = useState('searchRoute');
     const [ routeName, setRouteName ] = useState('');
     const [ stopName, setStopName ] = useState('');
-    const [ isConnect, setIsConnect ] = useState(true);
      
     //TDX API資料
     const [ busRouteData, setBusRouteData ] = useState([]);
@@ -60,10 +59,8 @@ export const FindBus = ({
     const fetchBusRoute = () => {
         return fetch(routeUrl, { headers: getAuthorizationHeader() }).then(res => {
             if (res.ok) {
-                setIsConnect(true);
                 return res.json();
             } else if (res.status > 400) {
-                setIsConnect(false);
                 return [];
             }
             throw new Error('Request failed!');
@@ -76,10 +73,30 @@ export const FindBus = ({
     const fetchBusStop = () => {
         return fetch(stopUrl, { headers: getAuthorizationHeader() }).then(res => res.json())
         .then(jsonRes => {
-            console.log(jsonRes)
+            //console.log(jsonRes)
             setBusStopData(jsonRes)
         });
     };
+
+    const isDataLoad = () => {
+        if (busRouteData.length === 0 && busStopData.length === 0) return;
+        return (
+        searchMethod === 'searchRoute'? 
+        <BusCard 
+        busRouteData={busRouteData} 
+        twCityName={twCityName} 
+        setRouteUID={setRouteUID} 
+        routeUID={routeUID} 
+        setRoundName={setRoundName}
+        /> : 
+        <StopBusCard 
+        busStopData={busStopData} 
+        twCityName={twCityName} 
+        setRouteUID={setRouteUID}
+        setStopUID={setStopUID}
+        />
+        )
+    }
   
     useEffect(()=>{
         if(routeName.length === 0 || stopName === 0) return;
@@ -109,6 +126,7 @@ export const FindBus = ({
                                 <option value={city.enCityName}>{city.city}</option>
                             ))}
                         </SelectCity>
+                        <img src={arrow} />
                     </SelectCityContainer>
                     <SearchInputContainer>
                         <div className="search">搜尋</div>
@@ -118,21 +136,7 @@ export const FindBus = ({
                 </SearchForm>
             </SearchBox>
         </SearchBus>
-        {searchMethod === 'searchRoute'? 
-        <BusCard 
-        busRouteData={busRouteData} 
-        twCityName={twCityName} 
-        setRouteUID={setRouteUID} 
-        routeUID={routeUID} 
-        setRoundName={setRoundName}
-        /> : 
-        <StopBusCard 
-        busStopData={busStopData} 
-        twCityName={twCityName} 
-        setRouteUID={setRouteUID}
-        setStopUID={setStopUID}
-        />
-        }
+        {isDataLoad()}
         <img src={backgroundLg} alt="background" />
      </SearchBusContainer>
     );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BusInfoContaienr, TopBar, City, RouteName, Stops, StopCard, ArrivalTime, StopName, StopOrder, Plate, BusIcon, DestinationName} from './style'
+import { BusInfoContaienr, TopBar, City, RouteName, Stops, StopCard, ArrivalTime, StopName, StopOrder, Plate, BusIcon, DestinationName, TopBarContainer} from './style'
 import busIcon from '../../assets/bus-icon.png';
 import { useParams } from "react-router";
 import getRouteUID from '../../constants/utils';
@@ -12,7 +12,6 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
     //get 公車預估到站資料
     const [ estimateBusTime, setEstimateBusTime ] = useState([]);
 
-    
     const getBusEstimateTime = async() => {
             const estimatedTimeOfArrival = `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${cityName}?%24filter=contains(StopUID%2C'${stopUID}')&%24top=30&%24format=JSON`;
             const res = await fetch(estimatedTimeOfArrival, { headers: getAuthorizationHeader() });
@@ -28,7 +27,6 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
                         estimateTime: jsonRes.EstimateTime
                     }
                 ])
-        
     }
 
     //get 公車routeUID
@@ -40,7 +38,7 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
         //console.log('stopdata', jsonRes);
         
         getRouteUID(jsonRes, stopUID, routeId);
-        console.log(routeId)
+        //console.log(routeId)
         getBusRoute();
     };
 
@@ -48,7 +46,6 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
     const [ routeInfo , setRouteInfo ] = useState([]);
 
     const getBusRoute = async () => {
-        
         for (let i =0; i < routeId.length; i++) {
             const route = `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${cityName}?%24filter=contains(RouteUID%2C%20'${routeId[i]}')&%24top=30&%24format=JSON`;
 
@@ -77,7 +74,7 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
         //在state尋找相同UID的stop資訊，並將此物件放進新的陣列
         const estimateTime = estimateBusTime.filter(item => item.routeUID === routeUid);
         
-        if ( estimateTime.length === 0) {
+        if (estimateTime.length === 0) {
            return <ArrivalTime background="#BDBDBD">未發車</ArrivalTime>; 
         } else {
            return estimateTime.map(uid => {
@@ -98,13 +95,19 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
     useEffect(() => {
         getBusRouteUID();
         getBusEstimateTime();
+        const interval = setInterval(getBusEstimateTime(), 40000)
+        return () => {
+            clearInterval(interval);
+        }
     }, []);
 
     return ( 
         <BusInfoContaienr>
             <TopBar>
-               <City>{twCityName}</City>
-               <RouteName>{routeTitle}</RouteName>
+              <TopBarContainer>
+                <City>{twCityName}</City>
+                <RouteName>{routeTitle}</RouteName>
+              </TopBarContainer>
             </TopBar>
             <Stops>
                 {routeInfo.map(info => (

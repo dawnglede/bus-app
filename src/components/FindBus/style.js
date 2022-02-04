@@ -42,8 +42,6 @@ export const SearchBus = styled.div`
       margin: 60px 0 30px 0;
     }
   }
- 
-
 `;
 
 export const SearchBox = styled.div`
@@ -57,7 +55,6 @@ export const SearchBox = styled.div`
    
    ${MEDIA_MD} {
     width: 500px;
-
    }
 `;
 
@@ -67,7 +64,6 @@ export const SearchForm = styled.form`
   
   input[type="radio"] { 
     display: none;
-    
   }
 
   .searchRoute {
@@ -148,7 +144,6 @@ export const SelectCity = styled.select`
    font-size: 16px;
    font-weight: 700;
    padding-left: 58px;
-   background: url(${arrow}) no-repeat scroll right center transparent;
    background-color: #F2F2F2;
    position: relative;
 
@@ -158,6 +153,7 @@ export const SelectCity = styled.select`
    
 `;
 
+//  background: url(${arrow}) no-repeat scroll right center transparent;
 export const CityName = styled.div`
     position: absolute;
     top: 40px;
@@ -168,7 +164,7 @@ export const CityName = styled.div`
 `;
 
 export const SearchInputContainer = styled.div`
-  width: 476px;
+  width: 355px;
   height: 56px;
   margin-left: 12px;
   position: relative;
@@ -176,5 +172,17 @@ export const SearchInputContainer = styled.div`
 
 export const SelectCityContainer = styled.div`
   position: relative;
+  img {
+    width: 12px;
+    height: 7px;
+    position: absolute;
+    left: 333px;
+    top: 45px;
+    z-index: 5;
+
+    ${MEDIA_MD} {
+      left: 455px;
+    }
+  }
 `;
 
