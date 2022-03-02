@@ -95,7 +95,7 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
     useEffect(() => {
         getBusRouteUID();
         getBusEstimateTime();
-        const interval = setInterval(getBusEstimateTime(), 40000)
+        const interval = setInterval(getBusEstimateTime(), 30000)
         return () => {
             clearInterval(interval);
         }

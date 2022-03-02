@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import radioUnchecked from '../../assets/radio-unchecked.png';
 import radioChecked from '../../assets/radio-checked.png';
-import arrow from '../../assets/arrow.png';
 import { MEDIA_MD, MEDIA_LG} from '../../constants/breakpoint';
 
 export const SearchBusContainer = styled.div`

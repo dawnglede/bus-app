@@ -36,10 +36,6 @@ export const TopBar = styled.div`
         padding-left: 7%;
         height: 114px;
     }
-
-    ${MEDIA_LG} {
-        padding-left: 26%;
-    }
 `;
 
 export const City = styled.div`
@@ -123,8 +119,6 @@ export const Departure = styled.button`
     font-weight: bold;
     margin: 0 16px;
     cursor: pointer;
-
-    
 
     ${MEDIA_MD} {
         width: 323px;
@@ -258,9 +252,9 @@ export const StopOrder = styled.div`
     width: 30px;
     height: 24px;
     font-size: 12px;
-    background: #F2F2F2;
+    background: ${props => props.background};
     border-radius: 16px;
-    color: #BDBDBD;
+    color: ${props => props.fontcolor};
     position: absolute;
     text-align: center;
     display: flex;

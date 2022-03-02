@@ -36,9 +36,6 @@ export const TopBar = styled.div`
         height: 114px;
     }
 
-    ${MEDIA_LG} {
-        padding-left: 26%;
-    }
 `;
 
 export const City = styled.div`

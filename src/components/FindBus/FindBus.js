@@ -4,7 +4,6 @@ import backgroundLg from '../../assets/searchBus-lg.png';
 import { BusCard } from '../BusCard/BusCard';
 import { StopBusCard } from '../StopBusCard/StopBusCard';
 import { location } from '../../constants/utils';
-import styled from 'styled-components';
 import getAuthorizationHeader from '../../BusApi/busApi';
 import arrow from '../../assets/arrow.png';
 
@@ -126,7 +125,7 @@ export const FindBus = ({
                                 <option value={city.enCityName}>{city.city}</option>
                             ))}
                         </SelectCity>
-                        <img src={arrow} />
+                        <img src={arrow} alt="arrow"/>
                     </SelectCityContainer>
                     <SearchInputContainer>
                         <div className="search">搜尋</div>
@@ -141,16 +140,3 @@ export const FindBus = ({
      </SearchBusContainer>
     );
 };
-
-const MessageContainer = styled.div`
-    margin: 30px 0;
-    text-align: center;
-`;
-
-const ErrorMessage = () => {
-    return (
-        <MessageContainer>
-            <p>已超出連線次數</p>
-        </MessageContainer>
-    )
-}
