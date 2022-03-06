@@ -6,6 +6,7 @@ import { StopBusCard } from '../StopBusCard/StopBusCard';
 import { location } from '../../constants/utils';
 import getAuthorizationHeader from '../../BusApi/busApi';
 import arrow from '../../assets/arrow.png';
+import PropTypes from 'prop-types';
 
 export const FindBus = ({ 
     setTwCityName, 
@@ -104,6 +105,7 @@ export const FindBus = ({
         } else {
           fetchBusStop()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cityName, routeName, searchMethod])
 
 
@@ -121,8 +123,8 @@ export const FindBus = ({
                         <CityName>縣市</CityName>
                         <SelectCity id="selectCity" onChange={handleSelectChange}>
                             <option value="">選取縣市</option>
-                            {location.map(city => (
-                                <option value={city.enCityName}>{city.city}</option>
+                            {location.map((city,index) => (
+                                <option key={index} value={city.enCityName}>{city.city}</option>
                             ))}
                         </SelectCity>
                         <img src={arrow} alt="arrow"/>
@@ -139,4 +141,15 @@ export const FindBus = ({
         <img src={backgroundLg} alt="background" />
      </SearchBusContainer>
     );
+};
+
+FindBus.propTypes = {
+    setTwCityName: PropTypes.func, 
+    twCityName: PropTypes.string, 
+    cityName: PropTypes.string, 
+    setCityName: PropTypes.func, 
+    setRouteUID: PropTypes.func, 
+    routeUID: PropTypes.string, 
+    setRoundName: PropTypes.func,
+    setStopUID: PropTypes.func
 };

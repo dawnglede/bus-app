@@ -18,7 +18,7 @@ function App() {
     
     //路線資料
     const [ routeUID, setRouteUID ] = useState('');
-    const [ roundName, setRoundName ] = useState([]);
+    const [ roundName, setRoundName ] = useState({});
     const [ stopUID, setStopUID] = useState('');
 
     return (

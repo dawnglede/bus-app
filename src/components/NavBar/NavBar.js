@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { NavBarStyle, Logo, MenuStyle, DropdownMenuStyle, FindBusIcon } from './style';
+import React from 'react';
+import { NavBarStyle, Logo, FindBusIcon /*MenuStyle, DropdownMenuStyle*/} from './style';
 import logo from  '../../assets/Logo.svg';
-import menuIcon from '../../assets/menu.svg';
+//import menuIcon from '../../assets/menu.svg';
 import searchIcon from '../../assets/searchicon.svg';
 import { Link } from 'react-router-dom';
 
 export const NavBar = () => {
     //選單是否開啟
-    const [ isMenuOpen, setIsMenuOpen ] = useState(true);
+    /*const [ isMenuOpen, setIsMenuOpen ] = useState(true);
     
     //選單狀態
     const showMenu = () => {
-      const menu = document.getElementById('dropdown');
+      /*const menu = document.getElementById('dropdown');
       if (isMenuOpen === false) {
         setIsMenuOpen(true);
         //menu.style.display = 'none';
@@ -31,7 +31,7 @@ export const NavBar = () => {
         navBar.style.overflow = 'hidden';
         showMenu();
       }
-    } 
+    } */
 
     return (
       <NavBarStyle id="navBar" className="navbar">
@@ -56,4 +56,3 @@ export const NavBar = () => {
       </NavBarStyle>
     );
 };
-

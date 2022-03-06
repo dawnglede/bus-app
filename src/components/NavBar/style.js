@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MEDIA_MD, MEDIA_LG } from '../../constants/breakpoint';
+import { MEDIA_LG } from '../../constants/breakpoint';
 
 
 export const NavBarStyle = styled.nav`

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { MEDIA_MD, MEDIA_LG } from '../../constants/breakpoint';
-import busIcon from '../../assets/bus-icon.png';
+import { MEDIA_MD } from '../../constants/breakpoint';
 
 export const BusInfoContaienr = styled.div`
     max-width: 411px;
@@ -10,7 +9,6 @@ export const BusInfoContaienr = styled.div`
         max-width: 768px;
     }
 `;
-
 
 export const TopBarContainer = styled.div`
     width: 411px;
@@ -113,12 +111,14 @@ export const Departure = styled.button`
     height: 40px;
     border-radius: 16px;
     text-align: center;
-    font-size: 16px;
-    
+    font-size: 15px;
     line-height: 40px;
     font-weight: bold;
     margin: 0 16px;
     cursor: pointer;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     ${MEDIA_MD} {
         width: 323px;
@@ -270,22 +270,22 @@ export const StopOrder = styled.div`
 `;
 
 export const Plate = styled.div`
-    width: 80px;
+    width: auto;
     height: 28px;
     background: #6B00FF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 16px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 28px;
-    text-align: end;
-    padding: 1px 8px 0 8px;
+    text-align: center;
+    padding: 1px 8px 0 25px;
     color: #FFFFFF;
     position: absolute;
     top: 20px;
     right: 48px;
 
     ${MEDIA_MD} {
-        width: 86px;
+        width: auto;
         height: 32px;
         font-size: 16px;
         line-height: 28px;
@@ -301,4 +301,3 @@ export const BusIcon = styled.img`
         top: 8px;
     }
 `;
-

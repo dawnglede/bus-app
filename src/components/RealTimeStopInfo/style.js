@@ -1,6 +1,5 @@
-import styled, { css } from 'styled-components';
-import { MEDIA_MD, MEDIA_LG } from '../../constants/breakpoint';
-import busIcon from '../../assets/bus-icon.png';
+import styled from 'styled-components';
+import { MEDIA_MD } from '../../constants/breakpoint';
 
 export const BusInfoContaienr = styled.div`
     max-width: 411px;

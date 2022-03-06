@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BusInfoContaienr, TopBar, City, RouteName, Stops, StopCard, ArrivalTime, StopName, StopOrder, Plate, BusIcon, DestinationName, TopBarContainer} from './style'
-import busIcon from '../../assets/bus-icon.png';
+import { BusInfoContaienr, TopBar, City, RouteName, Stops, StopCard, ArrivalTime, StopName, DestinationName, TopBarContainer} from './style'
 import { useParams } from "react-router";
 import getRouteUID from '../../constants/utils';
 import getAuthorizationHeader from '../../BusApi/busApi';
+import PropTypes from 'prop-types';
 
-export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) => {
+export const RealTimeStopInfo = ({ twCityName, cityName, stopUID }) => {
     let { routeTitle } = useParams();
     let routeId = [];
     
@@ -67,29 +67,25 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
     
     //判斷公車是否進站
     const isBusCome = (routeUid) => {
-        
         //console.log('state', state);
         //console.log('stopInfo', stopInfo);
-        
-        //在state尋找相同UID的stop資訊，並將此物件放進新的陣列
         const estimateTime = estimateBusTime.filter(item => item.routeUID === routeUid);
         
         if (estimateTime.length === 0) {
            return <ArrivalTime background="#BDBDBD">未發車</ArrivalTime>; 
         } else {
+           // eslint-disable-next-line array-callback-return
            return estimateTime.map(uid => {
             let time = Math.round((uid.estimateTime)/60);
-            if (uid.stopStatus === 0 && time > 3) {
+            if (uid.stopStatus === 0 && time > 1) {
                 return <ArrivalTime background="#00C2BA">{time}分</ArrivalTime>;
-             } else if (uid.stopStatus === 0 && time <= 3) {
+             } else if (uid.stopStatus === 0 && time <= 1) {
                 return <ArrivalTime background="#EB5757" >進站中</ArrivalTime>;
-             } 
-             else {
-                return  <ArrivalTime background="#BDBDBD">未發車</ArrivalTime>; 
+             } else if (uid.stopStatus === 3) {
+                return  <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>; 
              }
             });
         }
-       /*<ArrivalTime background="#BDBDBD" >末班駛離</ArrivalTime>;*/
     }
     
     useEffect(() => {
@@ -99,6 +95,7 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
         return () => {
             clearInterval(interval);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return ( 
@@ -110,9 +107,9 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
               </TopBarContainer>
             </TopBar>
             <Stops>
-                {routeInfo.map(info => (
-                        <StopCard>
-                            {estimateBusTime !== [] ? isBusCome(info.routeUID) : <ArrivalTime background="#BDBDBD" >末班駛離</ArrivalTime>}
+                {routeInfo.map((info,index) => (
+                        <StopCard key={index}>
+                            {estimateBusTime.length !== 0 ? isBusCome(info.routeUID) : <ArrivalTime background="#BDBDBD" >末班駛離</ArrivalTime>}
                             <StopName>{info.routeName}<DestinationName>&gt;{info.destinationStopNameZh}</DestinationName></StopName>
                             {/*<StopOrder>{stopInfo.stopSequence}</StopOrder>*/}
                             {/*<Plate><BusIcon src={busIcon}></BusIcon>249-FY</Plate>*/}
@@ -122,3 +119,9 @@ export const RealTimeStopInfo = ({ twCityName, cityName, roundName, stopUID }) =
         </BusInfoContaienr>
     );
 }
+
+RealTimeStopInfo.propTypes = {
+    twCityName: PropTypes.string, 
+    cityName: PropTypes.string, 
+    stopUID: PropTypes.string
+};

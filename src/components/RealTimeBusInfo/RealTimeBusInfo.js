@@ -3,6 +3,7 @@ import { BusInfoContaienr, TopBar, City, RouteName, Destination, Stops, Departur
 import busIcon from '../../assets/bus-icon.png';
 import { useParams} from "react-router";
 import getAuthorizationHeader from '../../BusApi/busApi';
+import PropTypes from 'prop-types';
 
 export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) => {
     let { routeTitle } = useParams();
@@ -34,24 +35,26 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
             //去程
             busDeparture = routeData.filter( route => route.Direction === 0);
             if (busDeparture) {
-                busDeparture.map( depart => setEstimateDepart(pre => ([
+                busDeparture.map(depart => setEstimateDepart(pre => ([
                 ...pre,
                 {
                     stopUID: depart.StopUID,
                     stopStatus: depart.StopStatus,
-                    estimateTime: depart.EstimateTime
+                    estimateTime: depart.EstimateTime,
+                    stopSequence: depart.StopSequence
                 }
             ])))
             }
             //回程
             busReturn = routeData.filter( route => route.Direction === 1);
             if (busReturn) {
-                busReturn.map( depart => setEstimateReturn(pre => ([
+                busReturn.map(returns => setEstimateReturn(pre => ([
                 ...pre,
                 {
-                    stopUID: depart.StopUID,
-                    stopStatus: depart.StopStatus,
-                    estimateTime: depart.EstimateTime
+                    stopUID: returns.StopUID,
+                    stopStatus: returns.StopStatus,
+                    estimateTime: returns.EstimateTime,
+                    stopSequence: returns.StopSequence
                 }
             ])))
             }
@@ -98,19 +101,18 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     };
     
     //判斷公車是否進站
-    const isBusCome = (stopUid, busState) => {
+    const isBusCome = (stopUid, busState, sequence) => {
         //console.log('state', state);
         //console.log('stopInfo', stopInfo);
-        
-        //在state尋找相同UID的stop資訊，並將此物件放進新的陣列
-        let sameUID = busState.filter(info => info.stopUID === stopUid)
+        const sameUID = busState.filter(info => info.stopUID === stopUid)
         //console.log(busState);
-        if ( sameUID.length === 0) {
+        if (sameUID.length === 0) {
            return <ArrivalTime background="#BDBDBD">未發車</ArrivalTime>; 
         } else {
+        // eslint-disable-next-line array-callback-return
         return sameUID.map(uid => {
-            let estimateTime = Math.round((uid.estimateTime)/60);
-            if (uid.stopStatus === 0 && estimateTime > 1) {
+            const estimateTime = Math.round((uid.estimateTime)/60);
+            if (uid.stopStatus === 0 && estimateTime > 1 && sequence === uid.stopSequence) {
                 return <ArrivalTime background="#00C2BA">{estimateTime}分</ArrivalTime>;
              } else if (uid.stopStatus === 0 && estimateTime <= 1) {
                 return <ArrivalTime background="#EB5757">進站中</ArrivalTime>;
@@ -181,6 +183,7 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
             clearInterval(getBusinterval);
             clearInterval(getBusPlateNumInterval);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return ( 
@@ -214,34 +217,69 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
             }
         </BusInfoContaienr>
     );
-}
+};
+
+RealTimeBusInfo.propTypes = {
+    twCityName: PropTypes.string, 
+    cityName: PropTypes.string, 
+    routeUID: PropTypes.string, 
+    roundName: PropTypes.object
+};
 
 //去程
-const DepartureStop = ({ departStopName, estimateDepart, isBusCome, showBusPlateNumb, departurePlateNum }) => {
+const DepartureStop = ({ 
+    departStopName, 
+    estimateDepart, 
+    isBusCome, 
+    showBusPlateNumb, 
+    departurePlateNum 
+}) => {
     return(
         <Stops>
                 {departStopName.map((stopInfo,index) => (
                         <StopCard key={index}>
-                            { estimateDepart.length !== 0 ? isBusCome(stopInfo.stopUID, estimateDepart) : <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>}
+                            { estimateDepart.length !== 0 ? isBusCome(stopInfo.stopUID, estimateDepart, stopInfo.stopSequence) : <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>}
                             <StopName>{stopInfo.stopName}</StopName>
                             { departurePlateNum.length !== 0 ? showBusPlateNumb(stopInfo.stopSequence,departurePlateNum) : <StopOrder background="#F2F2F2" fontcolor="#BDBDBD">{stopInfo.stopSequence}</StopOrder>}
-                            </StopCard>
+                        </StopCard>
                 ))}
         </Stops>
     )
-}
+};
+
+DepartureStop.propTypes = {
+    departStopName: PropTypes.array, 
+    estimateDepart: PropTypes.array, 
+    isBusCome: PropTypes.func, 
+    showBusPlateNumb: PropTypes.func, 
+    departurePlateNum: PropTypes.array
+};
 
 //回程
-const ReturnStop = ({ returnStopName, estimateReturn, isBusCome, returnPlateNum, showBusPlateNumb}) => {
+const ReturnStop = ({ 
+    returnStopName, 
+    estimateReturn, 
+    isBusCome, 
+    returnPlateNum, 
+    showBusPlateNumb
+}) => {
     return (
         <Stops>
                 {returnStopName.map((stopInfo,index) => (
                         <StopCard key={index}>
-                            {estimateReturn.length !== 0 ? isBusCome(stopInfo.stopUID, estimateReturn) : <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>}
+                            {estimateReturn.length !== 0 ? isBusCome(stopInfo.stopUID, estimateReturn, stopInfo.stopSequence) : <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>}
                             <StopName>{stopInfo.stopName}</StopName>
                             {returnPlateNum.length !== 0 ? showBusPlateNumb(stopInfo.stopSequence,returnPlateNum) : <StopOrder background="#F2F2F2" fontcolor="#BDBDBD">{stopInfo.stopSequence}</StopOrder>}
                         </StopCard>
                 ))}
         </Stops>
     )
-}
+};
+
+ReturnStop.propTypes = {
+    returnStopName: PropTypes.array, 
+    estimateReturn: PropTypes.array, 
+    isBusCome: PropTypes.func, 
+    returnPlateNum: PropTypes.array, 
+    showBusPlateNumb: PropTypes.func
+};
