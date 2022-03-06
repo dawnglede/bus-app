@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/bus-app/static/css/main.8a15d60f.chunk.css",
-    "main.js": "/bus-app/static/js/main.5ec39b59.chunk.js",
-    "main.js.map": "/bus-app/static/js/main.5ec39b59.chunk.js.map",
+    "main.js": "/bus-app/static/js/main.9bc98888.chunk.js",
+    "main.js.map": "/bus-app/static/js/main.9bc98888.chunk.js.map",
     "runtime-main.js": "/bus-app/static/js/runtime-main.85c6248a.js",
     "runtime-main.js.map": "/bus-app/static/js/runtime-main.85c6248a.js.map",
     "static/js/2.9cab3fb3.chunk.js": "/bus-app/static/js/2.9cab3fb3.chunk.js",
@@ -13,7 +13,6 @@
     "static/css/main.8a15d60f.chunk.css.map": "/bus-app/static/css/main.8a15d60f.chunk.css.map",
     "static/js/2.9cab3fb3.chunk.js.LICENSE.txt": "/bus-app/static/js/2.9cab3fb3.chunk.js.LICENSE.txt",
     "static/media/Logo.5d5cbc0e.svg": "/bus-app/static/media/Logo.5d5cbc0e.svg",
-    "static/media/menu.de72c7e0.svg": "/bus-app/static/media/menu.de72c7e0.svg",
     "static/media/searchBus-lg.664475c0.png": "/bus-app/static/media/searchBus-lg.664475c0.png",
     "static/media/searchicon.e1e77232.svg": "/bus-app/static/media/searchicon.e1e77232.svg"
   },
@@ -21,6 +20,6 @@
     "static/js/runtime-main.85c6248a.js",
     "static/js/2.9cab3fb3.chunk.js",
     "static/css/main.8a15d60f.chunk.css",
-    "static/js/main.5ec39b59.chunk.js"
+    "static/js/main.9bc98888.chunk.js"
   ]
 }
