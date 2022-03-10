@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/bus-app/static/css/main.8a15d60f.chunk.css",
-    "main.js": "/bus-app/static/js/main.9bc98888.chunk.js",
-    "main.js.map": "/bus-app/static/js/main.9bc98888.chunk.js.map",
+    "main.js": "/bus-app/static/js/main.8af78f14.chunk.js",
+    "main.js.map": "/bus-app/static/js/main.8af78f14.chunk.js.map",
     "runtime-main.js": "/bus-app/static/js/runtime-main.85c6248a.js",
     "runtime-main.js.map": "/bus-app/static/js/runtime-main.85c6248a.js.map",
     "static/js/2.9cab3fb3.chunk.js": "/bus-app/static/js/2.9cab3fb3.chunk.js",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.85c6248a.js",
     "static/js/2.9cab3fb3.chunk.js",
     "static/css/main.8a15d60f.chunk.css",
-    "static/js/main.9bc98888.chunk.js"
+    "static/js/main.8af78f14.chunk.js"
   ]
 }
