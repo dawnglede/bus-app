@@ -114,22 +114,7 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
             const estimateTime = Math.round((uid.estimateTime)/60);
             const isKeelung = cityName === 'Keelung';
             const sameSequence = sequence === uid.stopSequence;
-            /*switch(uid.stopStatus) {
-                case (0 && estimateTime > 1 && !isKeelung):
-                    (<ArrivalTime background="#00C2BA">{estimateTime}分</ArrivalTime>);
-                    break;
-                case 0 && estimateTime <= 1:
-                    (<ArrivalTime background="#EB5757">進站中</ArrivalTime>);
-                    break;
-                case 3:
-                    <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>;
-                    break;
-                case (0 && estimateTime > 1 && sameSequence):
-                    <ArrivalTime background="#00C2BA">{estimateTime}分</ArrivalTime>;
-                    break;
-                default:
-                    <ArrivalTime background="#BDBDBD">未發車</ArrivalTime>;
-            }*/
+            
             if (uid.stopStatus === 0 && estimateTime > 1 && !isKeelung) {
                 return <ArrivalTime background="#00C2BA">{estimateTime}分</ArrivalTime>;
              } else if (uid.stopStatus === 0 && estimateTime <= 1) {
