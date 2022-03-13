@@ -4,6 +4,7 @@ import busIcon from '../../assets/bus-icon.png';
 import { useParams} from "react-router";
 import getAuthorizationHeader from '../../BusApi/busApi';
 import PropTypes from 'prop-types';
+import { ErrorPage } from '../../constants/errorPage';
 
 export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) => {
     let { routeTitle } = useParams();
@@ -86,6 +87,7 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
         //去程站牌
         departure = jsonRes.filter(stop => stop.Direction === 0);
         //console.log('departure', departure);
+        if (departure.length === 0) return;
         departure[0].Stops.map(stop => setDepartStopName(pre => ([
             ...pre,
             {
@@ -206,6 +208,8 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
 
     return ( 
         <BusInfoContaienr>
+            {departStopName.length === 0 ? <ErrorPage /> :
+            <>
             <TopBar>
                 <TopBarContainer>
                     <City>{twCityName}</City>
@@ -217,6 +221,8 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
                <Arrow><i className="upper-left"></i><i className="lower-left"></i><i className="upper-right"></i><i className="lower-right"></i></Arrow>
                <Terminal onClick={changeColor} className={ isDeparture ? 'unclick' : 'clicked' } >{roundName.destination}</Terminal>
             </Destination>
+            </>
+            }
             { isDeparture ? 
             <DepartureStop 
             departStopName={departStopName} 
