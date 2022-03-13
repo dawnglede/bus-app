@@ -23,43 +23,46 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     const estimatedTimeOfArrival = `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${cityName}?%24filter=contains(RouteUID%2C%20'${routeUID}')&%24format=JSON`;
     
     const getBusEstimatedTime = async() => {
-        const res = await fetch(estimatedTimeOfArrival, { headers: getAuthorizationHeader() });
-        const jsonRes = await res.json();
-            setEstimateDepart([]);
-            setEstimateReturn([]);
-            let busDeparture;
-            let busReturn;
+        setEstimateDepart([]);
+        setEstimateReturn([]);
+        let busDeparture;
+        let busReturn;
+        let jsonRes = [];
 
-            const routeData = jsonRes.filter( route => route.RouteUID === routeUID && route.StopStatus === 0);
-            //console.log('routeData', routeData);
-            //去程
-            busDeparture = routeData.filter( route => route.Direction === 0);
-            if (busDeparture) {
-                busDeparture.map(depart => setEstimateDepart(pre => ([
-                ...pre,
-                {
-                    stopUID: depart.StopUID,
-                    stopStatus: depart.StopStatus,
-                    estimateTime: depart.EstimateTime,
-                    stopSequence: depart.StopSequence
-                }
-            ])))
+        try {
+            const res = await fetch(estimatedTimeOfArrival, { headers: getAuthorizationHeader() });
+            jsonRes = await res.json();
+        } catch(e) {
+            console.log(e)
+        }
+
+        const routeData = jsonRes.filter( route => route.RouteUID === routeUID && route.StopStatus === 0);
+        //console.log('routeData', routeData);
+        //去程
+        busDeparture = routeData.filter( route => route.Direction === 0);
+        busDeparture.map(depart => setEstimateDepart(pre => ([
+            ...pre,
+            {
+                stopUID: depart.StopUID,
+                stopStatus: depart.StopStatus,
+                estimateTime: depart.EstimateTime,
+                stopSequence: depart.StopSequence
             }
-            //回程
-            busReturn = routeData.filter( route => route.Direction === 1);
-            if (busReturn) {
-                busReturn.map(returns => setEstimateReturn(pre => ([
-                ...pre,
-                {
-                    stopUID: returns.StopUID,
-                    stopStatus: returns.StopStatus,
-                    estimateTime: returns.EstimateTime,
-                    stopSequence: returns.StopSequence
-                }
-            ])))
+        ])))
+        //回程
+        busReturn = routeData.filter( route => route.Direction === 1);
+        busReturn.map(returns => setEstimateReturn(pre => ([
+            ...pre,
+            {
+                stopUID: returns.StopUID,
+                stopStatus: returns.StopStatus,
+                estimateTime: returns.EstimateTime,
+                stopSequence: returns.StopSequence
             }
-            //console.log('busDeparture', busDeparture);
-            //console.log('busReturn', busReturn);
+        ])))
+
+        //console.log('busDeparture', busDeparture);
+        //console.log('busReturn', busReturn);
     }
 
     //get 公車路線資料
@@ -69,11 +72,17 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     const stopOfRoute = `https://ptx.transportdata.tw/MOTC/v2/Bus/StopOfRoute/City/${cityName}?%24filter=contains(RouteUID%2C%20'${routeUID}')&%24top=30&%24format=JSON`;
 
     const getBusStop = async () => {
-        const res = await fetch(stopOfRoute, { headers: getAuthorizationHeader() });
-        const jsonRes = await res.json();
-        //console.log('stopdata', jsonRes);
+        let jsonRes = [];
         let departure = [];
         let returnRoute = [];
+
+        try {
+            const res = await fetch(stopOfRoute, { headers: getAuthorizationHeader() });
+            jsonRes = await res.json();
+        } catch(e) {
+            console.log(e)
+        }
+        
         //去程站牌
         departure = jsonRes.filter(stop => stop.Direction === 0);
         //console.log('departure', departure);
@@ -102,10 +111,9 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     
     //判斷公車是否進站
     const isBusCome = (stopUid, busState, sequence) => {
-        //console.log('state', state);
-        //console.log('stopInfo', stopInfo);
+
         const sameUID = busState.filter(info => info.stopUID === stopUid)
-        //console.log(busState);
+
         if (sameUID.length === 0) {
            return <ArrivalTime background="#BDBDBD">未發車</ArrivalTime>; 
         } else {
@@ -133,10 +141,15 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     const realTimeNearStop = `https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeNearStop/City/${cityName}?%24filter=contains(RouteUID%2C%20'${routeUID}')&%24format=JSON`
 
     const getBusPlateNum = async () => {
-        const res = await fetch(realTimeNearStop, { headers: getAuthorizationHeader() });
-        const jsonRes = await res.json();
         setDeparturePlateNum([]);
         setReturnPlateNum([]);
+        let jsonRes = [];
+        try {
+            const res = await fetch(realTimeNearStop, { headers: getAuthorizationHeader() });
+            jsonRes = await res.json();
+        } catch(e) {
+            console.log(e)
+        }
 
         let departurePlateNum = [];
         let returnPlateNum = [];
