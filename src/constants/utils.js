@@ -89,13 +89,12 @@ export const location = [
 
 //get routeUID by stopUID
 function getRouteUID(data, stopUID, routeId) {
-    //let routeId = [];
     let stopInfo = [];
 
     for (let i =0; i< data.length; i++) {
-      stopInfo.push(data[i].RouteUID);
-      stopInfo.push(data[i].Stops);
-      let stopInfoFlat = stopInfo.flat();
+      stopInfo.push(data[i].RouteUID, data[i].Stops);
+
+      const stopInfoFlat = stopInfo.flat();
       let sameStopId = stopInfoFlat.findIndex(item => item.StopUID === `${stopUID}`);
       let repeatInfo = routeId.findIndex(item => item === stopInfoFlat[0]);
       //console.log(stopInfoFlat);
