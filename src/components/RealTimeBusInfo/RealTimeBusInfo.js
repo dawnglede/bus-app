@@ -9,6 +9,7 @@ import { ErrorPage } from '../../constants/errorPage';
 export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) => {
     let { routeTitle } = useParams();
     const [ isDeparture, setIsDeparture ] = useState(true);
+    const [ errorMessage, setErrorMessage ] =useState();
 
     const changeColor = () => {
         if (isDeparture) {
@@ -34,6 +35,7 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
             const res = await fetch(estimatedTimeOfArrival, { headers: getAuthorizationHeader() });
             jsonRes = await res.json();
         } catch(e) {
+            setErrorMessage(e)
             console.log(e)
         }
 
@@ -115,7 +117,6 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
     const isBusCome = (stopUid, busState, sequence) => {
 
         const sameUID = busState.filter(info => info.stopUID === stopUid)
-
         if (sameUID.length === 0) {
            return <ArrivalTime background="#BDBDBD">未發車</ArrivalTime>; 
         } else {
@@ -163,7 +164,8 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
                 plateNumb: bus.PlateNumb,
                 stopSequence: bus.StopSequence,
                 eventType: bus.A2EventType,
-                dutyStatus: bus.DutyStatus
+                busStatus: bus.BusStatus,
+                stopUID: bus.StopUID
             }
         ])));
 
@@ -174,15 +176,16 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
                 plateNumb: bus.PlateNumb,
                 stopSequence: bus.StopSequence,
                 eventType: bus.A2EventType,
-                dutyStatus: bus.DutyStatus
+                busStatus: bus.BusStatus,
+                stopUID: bus.StopUID
             }
         ])));
     }
 
-    const showBusPlateNumb = (sequence, busState) => {
+    const showBusPlateNumb = (sequence, busState, stopUid) => {
         const sameSequence = busState.findIndex(stop => stop.stopSequence === sequence);
         const busStateIndex = busState[sameSequence];
-        if (sameSequence > -1 && busStateIndex.eventType === 1 && busStateIndex.dutyStatus === 0) {
+        if (sameSequence > -1 && busStateIndex.eventType === 1 && busStateIndex.busStatus === 0 && stopUid === busStateIndex.stopUID) {
             return (<>
                     <StopOrder background="#6B00FF" fontcolor="#FFFFFF">{sequence}</StopOrder>
                     <Plate><BusIcon src={busIcon}></BusIcon>{busState[sameSequence].plateNumb}</Plate>
@@ -208,7 +211,7 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
 
     return ( 
         <BusInfoContaienr>
-            {departStopName.length === 0 ? <ErrorPage /> :
+            {errorMessage ? <ErrorPage /> :
             <>
             <TopBar>
                 <TopBarContainer>
@@ -217,9 +220,14 @@ export const RealTimeBusInfo = ({ twCityName, cityName, routeUID, roundName }) =
                 </TopBarContainer>
             </TopBar>
             <Destination>
-               <Departure onClick={changeColor} className={ isDeparture ? 'clicked' : 'unclick' } >{roundName.depart}</Departure>
-               <Arrow><i className="upper-left"></i><i className="lower-left"></i><i className="upper-right"></i><i className="lower-right"></i></Arrow>
-               <Terminal onClick={changeColor} className={ isDeparture ? 'unclick' : 'clicked' } >{roundName.destination}</Terminal>
+                {roundName.depart !== roundName.destination ?
+                <>
+                    <Departure onClick={changeColor} className={ isDeparture ? 'clicked' : 'unclick' } >{roundName.depart}</Departure>
+                    <Arrow><i className="upper-left"></i><i className="lower-left"></i><i className="upper-right"></i><i className="lower-right"></i></Arrow>
+                    <Terminal onClick={changeColor} className={ isDeparture ? 'unclick' : 'clicked' } >{roundName.destination}</Terminal>
+                </> :
+                    <Departure className='clicked'>{roundName.depart}</Departure>
+               }
             </Destination>
             </>
             }
@@ -262,9 +270,10 @@ const DepartureStop = ({
         <Stops>
                 {departStopName.map((stopInfo,index) => (
                         <StopCard key={index}>
-                            { estimateDepart.length !== 0 ? isBusCome(stopInfo.stopUID, estimateDepart, stopInfo.stopSequence) : <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>}
+                            {isBusCome(stopInfo.stopUID, estimateDepart, stopInfo.stopSequence)}
+                            {/*estimateDepart.length === 0 && <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>*/}
                             <StopName>{stopInfo.stopName}</StopName>
-                            { departurePlateNum.length !== 0 ? showBusPlateNumb(stopInfo.stopSequence,departurePlateNum) : <StopOrder background="#F2F2F2" fontcolor="#BDBDBD">{stopInfo.stopSequence}</StopOrder>}
+                            { departurePlateNum.length !== 0 ? showBusPlateNumb(stopInfo.stopSequence, departurePlateNum, stopInfo.stopUID) : <StopOrder background="#F2F2F2" fontcolor="#BDBDBD">{stopInfo.stopSequence}</StopOrder>}
                         </StopCard>
                 ))}
         </Stops>
@@ -291,9 +300,9 @@ const ReturnStop = ({
         <Stops>
                 {returnStopName.map((stopInfo,index) => (
                         <StopCard key={index}>
-                            {estimateReturn.length !== 0 ? isBusCome(stopInfo.stopUID, estimateReturn, stopInfo.stopSequence) : <ArrivalTime background="#BDBDBD">末班駛離</ArrivalTime>}
+                            {isBusCome(stopInfo.stopUID, estimateReturn, stopInfo.stopSequence)}
                             <StopName>{stopInfo.stopName}</StopName>
-                            {returnPlateNum.length !== 0 ? showBusPlateNumb(stopInfo.stopSequence,returnPlateNum) : <StopOrder background="#F2F2F2" fontcolor="#BDBDBD">{stopInfo.stopSequence}</StopOrder>}
+                            {returnPlateNum.length !== 0 ? showBusPlateNumb(stopInfo.stopSequence, returnPlateNum, stopInfo.stopUID) : <StopOrder background="#F2F2F2" fontcolor="#BDBDBD">{stopInfo.stopSequence}</StopOrder>}
                         </StopCard>
                 ))}
         </Stops>
